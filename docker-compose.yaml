@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  flask_api:
+    build: ./app
+    container_name: flask_api
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_USER: root
+      MONGO_PASS: secret
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_DB: root
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
