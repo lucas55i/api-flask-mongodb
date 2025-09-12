@@ -18,11 +18,15 @@ jobs:
           username: lucas55i
           password: ${{ secrets.PASSWORD_DOCKER_HUB }}
 
+      - name: Install dependencies
+        run: ls
+
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
           file: ./app/Dockerfile
           push: true
-          tags: lucas55i/go_ci:${{ github.ref_name }}
+          tags: lucas55i/flask_api:${{ github.ref_name }}
             
