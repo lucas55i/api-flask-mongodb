@@ -18,8 +18,11 @@ jobs:
           username: lucas55i
           password: ${{ secrets.PASSWORD_DOCKER_HUB }}
 
+    #   - name: Install dependencies
+    #     run: cat app
+
       - name: Install dependencies
-        run: ls /app
+        run: ls app
 
 
       - name: Build and push Docker image
