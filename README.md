@@ -20,6 +20,6 @@ O projeto foi criado com foco em boas práticas de desenvolvimento e será evolu
 - [Python 3.x](https://www.python.org/)  
 - [Flask](https://flask.palletsprojects.com/)  
 - [MongoDB](https://www.mongodb.com/)  
-- [Docker](https://www.docker.com/) *(planejado)*  
+- [Docker](https://www.docker.com/) 
 - [GitHub Actions](https://docs.github.com/pt/actions) *(planejado para CI/CD)*  
 - [Prometheus](https://prometheus.io/) + [Grafana](https://grafana.com/) *(planejado para observabilidade)*
