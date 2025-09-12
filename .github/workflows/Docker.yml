@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.PASSWORD_DOCKER_HUB }}
 
       - name: Install dependencies
-        run: ls
+        run: ls /app
 
 
       - name: Build and push Docker image
