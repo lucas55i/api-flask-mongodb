@@ -1,9 +1,10 @@
 FROM python:3.10-slim
 
 WORKDIR /app
-RUN ls /app
 
 COPY requirements.txt .
+
+RUN cd app
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
