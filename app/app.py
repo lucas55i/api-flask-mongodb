@@ -3,8 +3,13 @@ import os
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from bson import ObjectId
+from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import Counter
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
+
+metrics.info('app_info', 'Application info', version='1.0.3')
 
 MONGO_USER = os.getenv("MONGO_USER")
 MONGO_PASS = os.getenv("MONGO_PASS")
@@ -23,6 +28,10 @@ client = MongoClient(MONGO_URI)
 db = client[MONGO_DB]
 colecao = db["users"]
 
+#metrics
+users_created = Counter("app_users_created_total", "Número total de usuários criados")
+users_deleted = Counter("app_users_deleted_total", "Número total de usuários deletados")
+
 
 """Module init"""
 def serialize_doc(doc):
@@ -39,6 +48,7 @@ def create_user():
     """Create user"""
     dados = request.get_json()
     resultado = colecao.insert_one(dados)
+    users_created.inc()
     return jsonify({"id": str(resultado.inserted_id)}), 201
 
 @app.route("/users", methods=["GET"])
@@ -69,8 +79,9 @@ def delete_user_by_id(user_id):
     """Delete user by {user_id}"""
     resultado = colecao.delete_one({"_id": ObjectId(user_id)})
     if resultado.deleted_count > 0:
+        users_deleted.inc()
         return jsonify({"message": "User deleted successfully"})
     return jsonify({"error": "User not found"}), 404
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", port=5000)
