@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 5s
+
+rule_files:
+  - alert.rules
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager-forum-api:9093
+
+scrape_configs:
+
+- job_name: prometheus-flask-api
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - prometheus-flask-api:9090
+
+- job_name: flask-api
+  metrics_path: /metrics
+  static_configs:
+  - targets:
+    - flask_api:5000
